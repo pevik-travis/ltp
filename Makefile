@@ -26,6 +26,8 @@
 # install target.
 CREATE_ENTRIES		?= 0
 
+deliberate error
+
 top_srcdir		?= $(CURDIR)
 
 include $(top_srcdir)/include/mk/env_pre.mk
