@@ -54,8 +54,8 @@ bindir			:= ${exec_prefix}/bin
 libdir			:= ${exec_prefix}/lib
 mandir			:= ${datarootdir}/man
 
-CPPFLAGS		:=
-CFLAGS			:= -g -O2
+CPPFLAGS		:= -std=c++98
+CFLAGS			:= -g -O2 -std=gnu89
 LDLIBS			:=
 LDFLAGS			:=
 
