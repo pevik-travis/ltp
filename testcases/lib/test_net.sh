@@ -19,7 +19,10 @@
 # Author: Alexey Kodanev <alexey.kodanev@oracle.com>
 #
 
-[ -z "$TST_LIB_LOADED" ] && . test.sh
+if [ -z "$TST_LIB_LOADED" ]; then
+	. test.sh
+	tst_check_cmds ip
+fi
 
 init_ltp_netspace()
 {
