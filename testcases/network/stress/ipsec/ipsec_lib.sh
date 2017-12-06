@@ -21,6 +21,9 @@
 
 . test_net.sh
 
+tst_require_root
+trap "tst_brkm TBROK 'test interrupted'" INT
+
 # Authenticated encryption with associated data
 AEALGO="rfc4106_128"
 # Encryption algorithm
