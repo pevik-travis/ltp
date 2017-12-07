@@ -9,6 +9,7 @@
  *	Casey Schaufler <casey@schaufler-ca.com>
  */
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

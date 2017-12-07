@@ -28,6 +28,7 @@
  *         user id of the caller is not superuser.
  */
 
+#include "config.h"
 #include <errno.h>
 #include <pwd.h>
 #include <sys/types.h>

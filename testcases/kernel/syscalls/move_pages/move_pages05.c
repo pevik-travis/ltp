@@ -56,6 +56,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <errno.h>
+#include "config.h"
 #include "test.h"
 #include "move_pages_support.h"
 

@@ -47,6 +47,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <errno.h>
+#include "config.h"
 #include "tst_test.h"
 #include "mem.h"
 

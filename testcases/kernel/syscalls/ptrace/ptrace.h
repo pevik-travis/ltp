@@ -5,6 +5,8 @@
 #ifndef __LTP_PTRACE_H__
 #define __LTP_PTRACE_H__
 
+#include "config.h"
+
 #ifdef HAVE_SYS_PTRACE_H
 # include <sys/ptrace.h>
 #endif

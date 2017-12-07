@@ -19,6 +19,7 @@
  *
  ************************************************************************/
 
+#include "config.h"
 #include "set_thread_area.h"
 
 char *TCID = "set_thread_area_01";

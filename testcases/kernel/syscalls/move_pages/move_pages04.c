@@ -61,6 +61,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <errno.h>
+#include "config.h"
 #include "test.h"
 #include "move_pages_support.h"
 
