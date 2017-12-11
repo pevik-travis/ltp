@@ -26,8 +26,19 @@ build_32()
 
 build_native()
 {
-	echo "===== native in tree build into $PREFIX ====="
+	echo "===== native in-tree build into $PREFIX ====="
 	build_in_tree
+}
+
+build_cross()
+{
+	local host="${CROSS_COMPILE%-}"
+	[ -n "$host" ] || host="${CC%-gcc}"
+	[ -n "$host" ] || \
+		{ echo "Missing CROSS_COMPILE and CC variables. You need to set at least one" >&2; exit 1; }
+
+	echo "===== cross-compile ${host} in-tree build into $PREFIX ====="
+	build_in_tree "--host=$host" CROSS_COMPILE="${host}-"
 }
 
 build_out_tree()
@@ -90,6 +101,7 @@ Options:
 
 BUILD TYPES:
 32      32-bit in-tree build
+cross   cross-compile in-tree build (requires to set CROSS_COMPILE or CC variable)
 native  native in-tree build
 out     out-of-tree build
 
@@ -100,6 +112,7 @@ EOF
 case "$1" in
 	-h|--help|help) usage; exit 0;;
 	32) build="build_32";;
+	cross) build="build_cross";;
 	out) build="build_out_tree";;
 	*) build="build_native";;
 esac
