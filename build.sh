@@ -10,12 +10,10 @@
 set -e
 
 PREFIX="$HOME/ltp-install"
-
-CONFIGURE_OPTS_IN_TREE="--with-open-posix-testsuite --with-realtime-testsuite --prefix=$PREFIX"
-
+DEFAULT_BUILD="build_native"
+CONFIGURE_OPTS_IN_TREE="--with-open-posix-testsuite --with-realtime-testsuite"
 # TODO: open posix testsuite is currently broken in out-tree-build. Enable it once it's fixed.
 CONFIGURE_OPTS_OUT_TREE="--with-realtime-testsuite"
-
 MAKE_OPTS="-j$(getconf _NPROCESSORS_ONLN)"
 
 build_32()
@@ -26,7 +24,7 @@ build_32()
 
 build_native()
 {
-	echo "===== native in tree build into $PREFIX ====="
+	echo "===== native in-tree build into $PREFIX ====="
 	build_in_tree
 }
 
@@ -43,7 +41,8 @@ build_out_tree()
 	make autotools
 
 	cd $build
-	if ! $tree/configure $CONFIGURE_OPTS; then
+	echo "=== configure ==="
+	if ! $tree/configure $CONFIGURE_OPTS_OUT_TREE; then
 		echo "== ERROR: configure failed, config.log =="
 		cat config.log
 		exit 1
@@ -62,7 +61,7 @@ build_in_tree()
 	make autotools
 
 	echo "=== configure ==="
-	if ! ./configure $CONFIGURE_OPTS_IN_TREE $@; then
+	if ! ./configure $CONFIGURE_OPTS_IN_TREE --prefix=$PREFIX $@; then
 		echo "== ERROR: configure failed, config.log =="
 		cat config.log
 		exit 1
@@ -82,27 +81,36 @@ usage()
 {
 	cat << EOF
 Usage:
-$0 [ BUILD_TYPE ]
-$0 -h|--help|help
+$0 [ -p DIR ] [ -t TYPE ]
+$0 -h
 
 Options:
--h|--help|help  Print this help
+-h       Print this help
+-p       Change installation directory (default: '$PREFIX')
+-t TYPE  Specify build type (default: $DEFAULT_BUILD)
 
 BUILD TYPES:
-32      32-bit in-tree build
-native  native in-tree build
-out     out-of-tree build
-
-Default build is native in-tree build.
+32       32-bit in-tree build
+native   native in-tree build
+out      out-of-tree build
 EOF
 }
 
-case "$1" in
-	-h|--help|help) usage; exit 0;;
-	32) build="build_32";;
-	out) build="build_out_tree";;
-	*) build="build_native";;
-esac
+build="$DEFAULT_BUILD"
+
+while getopts "hp:t:" opt; do
+	case "$opt" in
+	h) usage; exit 0;;
+	p) PREFIX="$OPTARG";;
+	t) case "$OPTARG" in
+		32) build="build_32";;
+		native) build="build_native";;
+		out) build="build_out_tree";;
+		*) echo "Wrong build type '$OPTARG'" >&2; usage; exit 1;;
+		esac;;
+	?) usage; exit 1;;
+	esac
+done
 
 cd `dirname $0`
 $build
