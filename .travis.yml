@@ -3,6 +3,23 @@ language: c
 matrix:
     include:
 
+        # 32-bit in-tree cross-compile builds
+        - os: linux
+          env: BUILD="32" INSTALL_PACKAGES="$BUILD"
+          compiler: gcc-4.9
+          addons:
+              apt:
+                  sources: ['ubuntu-toolchain-r-test']
+                  packages: ['gcc-4.9', 'gcc-4.9-multilib', 'linux-libc-dev:i386']
+
+        - os: linux
+          env: BUILD="32" INSTALL_PACKAGES="$BUILD"
+          compiler: gcc-6
+          addons:
+              apt:
+                  sources: ['ubuntu-toolchain-r-test']
+                  packages: ['gcc-6', 'gcc-6-multilib', 'linux-libc-dev:i386']
+
         # normal native in-tree builds
         - os: linux
           env: BUILD="native" INSTALL_PACKAGES="$BUILD"
@@ -60,23 +77,6 @@ matrix:
               apt:
                   sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.9']
                   packages: ['clang-3.9']
-
-        # 32-bit in-tree cross-compile builds
-        - os: linux
-          env: BUILD="32" INSTALL_PACKAGES="$BUILD"
-          compiler: gcc-4.9
-          addons:
-              apt:
-                  sources: ['ubuntu-toolchain-r-test']
-                  packages: ['gcc-4.9', 'gcc-4.9-multilib', 'linux-libc-dev:i386']
-
-        - os: linux
-          env: BUILD="32" INSTALL_PACKAGES="$BUILD"
-          compiler: gcc-6
-          addons:
-              apt:
-                  sources: ['ubuntu-toolchain-r-test']
-                  packages: ['gcc-6', 'gcc-6-multilib', 'linux-libc-dev:i386']
 
         # out-of-tree build
         - os: linux
