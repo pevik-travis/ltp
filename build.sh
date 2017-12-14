@@ -9,7 +9,7 @@
 
 set -e
 
-PREFIX="$HOME/ltp-install"
+PREFIX="/opt/ltp"
 DEFAULT_BUILD="build_native"
 CONFIGURE_OPTS_IN_TREE="--with-open-posix-testsuite --with-realtime-testsuite"
 # TODO: open posix testsuite is currently broken in out-tree-build. Enable it once it's fixed.
